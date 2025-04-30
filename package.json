@@ -4,7 +4,9 @@
   "private": true,
   "type": "module",
   "dependencies": {
+    "@ant-design/cssinjs": "^1.23.0",
     "@ant-design/icons": "^5.5.1",
+    "@ant-design/plots": "^2.3.3",
     "@refinedev/antd": "^5.44.0",
     "@refinedev/cli": "^2.16.21",
     "@refinedev/core": "^4.47.1",
@@ -14,6 +16,8 @@
     "@refinedev/react-router": "^1.0.0",
     "@uiw/react-md-editor": "^3.19.5",
     "antd": "^5.17.0",
+    "dayjs": "^1.11.13",
+    "graphql": "^16.11.0",
     "graphql-tag": "^2.12.6",
     "graphql-ws": "^5.9.1",
     "react": "^18.0.0",
@@ -31,20 +35,26 @@
     "@typescript-eslint/eslint-plugin": "^5.57.1",
     "@typescript-eslint/parser": "^5.57.1",
     "@vitejs/plugin-react": "^4.0.0",
+    "autoprefixer": "^10.4.21",
+    "cross-env": "^7.0.3",
     "eslint": "^8.38.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.3.4",
+    "postcss": "^8.5.3",
+    "postcss-nesting": "^13.0.1",
     "prettier": "^3.5.3",
     "typescript": "^5.8.3",
     "vite": "^4.3.1",
     "vite-tsconfig-paths": "^5.1.4"
   },
   "scripts": {
+    "build": "tsc && cross-env NODE_OPTIONS=--max_old_space_size=4096 refine build",
+    "codegen": "graphql-codegen",
     "dev": "refine dev",
-    "build": "tsc && refine build",
-    "start": "refine start",
+    "format": "prettier --write src",
+    "lint": "eslint src --fix",
     "refine": "refine",
-    "codegen": "graphql-codegen"
+    "start": "refine start"
   },
   "browserslist": {
     "production": [

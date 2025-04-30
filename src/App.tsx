@@ -1,4 +1,4 @@
-import { Authenticated, GitHubBanner, Refine } from "@refinedev/core";
+import { Authenticated, GitHubBanner, Refine, WelcomePage } from "@refinedev/core";
 import { DevtoolsPanel, DevtoolsProvider } from "@refinedev/devtools";
 import { RefineKbar, RefineKbarProvider } from "@refinedev/kbar";
 
@@ -19,22 +19,9 @@ import routerBindings, {
 } from "@refinedev/react-router";
 import { App as AntdApp } from "antd";
 import { BrowserRouter, Outlet, Route, Routes } from "react-router";
-
-import {
-  BlogPostCreate,
-  BlogPostEdit,
-  BlogPostList,
-  BlogPostShow,
-} from "./pages/blog-posts";
-import {
-  CategoryCreate,
-  CategoryEdit,
-  CategoryList,
-  CategoryShow,
-} from "./pages/categories";
-import { ForgotPassword } from "./pages/forgotPassword";
-import { Login } from "./pages/login";
-import { Register } from "./pages/register";
+import {Home, LoginPage, ForgotPassword, Register} from "./pages";
+import { Layout } from "./components/layout";
+import { resources } from "./config/resources";
 
 // const API_URL = "https://api.nestjs-query.refine.dev/graphql";
 // const WS_URL = "wss://api.nestjs-query.refine.dev/graphql";
@@ -56,28 +43,7 @@ function App() {
                 notificationProvider={useNotificationProvider}
                 routerProvider={routerBindings}
                 authProvider={authProvider}
-                resources={[
-                  {
-                    name: "blog_posts",
-                    list: "/blog-posts",
-                    create: "/blog-posts/create",
-                    edit: "/blog-posts/edit/:id",
-                    show: "/blog-posts/show/:id",
-                    meta: {
-                      canDelete: true,
-                    },
-                  },
-                  {
-                    name: "categories",
-                    list: "/categories",
-                    create: "/categories/create",
-                    edit: "/categories/edit/:id",
-                    show: "/categories/show/:id",
-                    meta: {
-                      canDelete: true,
-                    },
-                  },
-                ]}
+                resources={resources}
                 options={{
                   syncWithLocation: true,
                   warnWhenUnsavedChanges: true,
@@ -87,6 +53,26 @@ function App() {
                 }}
               >
                 <Routes>
+                  {/* <Route index element={<WelcomePage />} /> */}
+                  <Route path="/register" element={<Register /> }/>
+                  <Route path="/login" element={<LoginPage /> }/>
+                  <Route path="/forgot-password" element={<ForgotPassword /> }/>
+                  <Route
+                  path="/blog-posts"
+                    element={
+                      <Authenticated 
+                        key="authenticated" 
+                        fallback={<CatchAllNavigate to="/login" />} 
+                      >
+                      <Layout>
+                        <Outlet />
+                      </Layout>
+                      </Authenticated>
+                    }>
+                  <Route index element={<Home />} />
+                  </Route>
+                </Routes>
+                {/* <Routes>
                   <Route
                     element={
                       <Authenticated
@@ -137,7 +123,7 @@ function App() {
                       element={<ForgotPassword />}
                     />
                   </Route>
-                </Routes>
+                </Routes> */}
 
                 <RefineKbar />
                 <UnsavedChangesNotifier />
